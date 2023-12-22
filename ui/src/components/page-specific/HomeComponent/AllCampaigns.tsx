@@ -1,111 +1,63 @@
-import React from 'react';
 import Silder from '../../slider/Silder';
-import AvatarComponent from '../../avatar/Avatar';
+
 import Button from '../../button/Button';
 
-const AllCampaigns = () => {
+const AllCampaigns = ({ data }: { data: any }) => {
   return (
     <div className="mt-2">
       <div className="grid grid-cols-3 gap-8">
-        <div className="card mt-8">
-          <img
-            src="https://lafeber.com/pet-birds/wp-content/uploads/2021/04/Ayam-Cemani-300x261.jpg"
-            alt="Placeholder preview of starter"
-          />
-          <div className="card-text">
-            <h2 className="gradient-text-1 text-xl font-bold">
-              Save this big black cock
-            </h2>
-            <p>
-              Please help us save this big black cock. It was rescued from
-              butcher shop and now it needs new home.
-            </p>
-            <Silder defaultVal={1.2} max={6} />
-            <div className="flex text-xl justify-between mt-4 w-full">
-              <p>Raised: 0.0002</p>
-
-              <p>Goal: 2.0000</p>
-            </div>
-            <div className="mt-5 flex flex-col gap-5">
-              <div>
-                <p>
-                  Campaign By :{' '}
-                  <span className="ml-3">
-                    <AvatarComponent />
-                  </span>{' '}
-                  Cock Lover 69
-                </p>
+        {data?.map((el: any) => (
+          <div key={el.pId} className="card mt-8">
+            <img src={el.image} alt={el.title} />
+            <div className="card-text">
+              <div className="h-[150px] ">
+                <h2
+                  style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    textOverflow: 'ellipsis',
+                  }}
+                  className="gradient-text-1 text-xl font-bold"
+                >
+                  {el.title}
+                </h2>
+                <div
+                  style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical',
+                    textOverflow: 'ellipsis',
+                  }}
+                  className="overflow-hidden "
+                >
+                  {el.description}
+                </div>
               </div>
-              <Button variant="primary">Donate Now</Button>
+              <div className="mt-5"></div>
+              <Silder
+                defaultVal={Number(el.amountCollected)}
+                max={Number(el.target)}
+              />
+              <div className="flex text-xl justify-between mt-4 w-full">
+                <p>Raised: {el.amountCollected}</p>
+
+                <p>Goal: {el.target}</p>
+              </div>
+              <div className="mt-5 flex flex-col gap-5">
+                <div>
+                  <p className="w-full  break-words">
+                    Campaign By :{' '}
+                    <span className="">
+                      {el?.name} ({el?.owner})
+                    </span>{' '}
+                  </p>
+                </div>
+                <Button variant="primary">Donate Now</Button>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="card mt-8">
-          <img
-            src="https://lafeber.com/pet-birds/wp-content/uploads/2021/04/Ayam-Cemani-300x261.jpg"
-            alt="Placeholder preview of starter"
-          />
-          <div className="card-text">
-            <h2 className="gradient-text-1 text-xl font-bold">
-              Save this big black cock
-            </h2>
-            <p>
-              Please help us save this big black cock. It was rescued from
-              butcher shop and now it needs new home.
-            </p>
-            <Silder defaultVal={1.2} max={6} />
-            <div className="flex text-xl justify-between mt-4 w-full">
-              <p>Raised: 0.0002</p>
-
-              <p>Goal: 2.0000</p>
-            </div>
-            <div className="mt-5 flex flex-col gap-5">
-              <div>
-                <p>
-                  Campaign By :{' '}
-                  <span className="ml-3">
-                    <AvatarComponent />
-                  </span>{' '}
-                  Cock Lover 69
-                </p>
-              </div>
-              <Button variant="primary">Donate Now</Button>
-            </div>
-          </div>
-        </div>
-        <div className="card mt-8">
-          <img
-            src="https://lafeber.com/pet-birds/wp-content/uploads/2021/04/Ayam-Cemani-300x261.jpg"
-            alt="Placeholder preview of starter"
-          />
-          <div className="card-text">
-            <h2 className="gradient-text-1 text-xl font-bold">
-              Save this big black cock
-            </h2>
-            <p>
-              Please help us save this big black cock. It was rescued from
-              butcher shop and now it needs new home.
-            </p>
-            <Silder defaultVal={1.2} max={6} />
-            <div className="flex text-xl justify-between mt-4 w-full">
-              <p>Raised: 0.0002</p>
-
-              <p>Goal: 2.0000</p>
-            </div>
-            <div className="mt-5 flex flex-col gap-5">
-              <div>
-                <p>
-                  Campaign By :{' '}
-                  <span className="ml-3">
-                    <AvatarComponent />
-                  </span>{' '}
-                  Cock Lover 69
-                </p>
-              </div>
-              <Button variant="primary">Donate Now</Button>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

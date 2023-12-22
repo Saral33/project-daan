@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 
 contract CrowdFunding {
-    struct Campaign{
+    struct Campaign {
         address owner;
         string fullName;
         string title;
@@ -17,14 +17,24 @@ contract CrowdFunding {
     }
 
     mapping(uint256 => Campaign) public campaigns;
-    uint256 public campaignsCount=0;
+    uint256 public campaignsCount = 0;
 
-    function createCampaign(address owner, string memory fullName, string memory title, string memory description,
-    uint256 goal, uint256 deadline, string memory image) public returns (uint256){
+    function createCampaign(
+        address owner,
+        string memory fullName,
+        string memory title,
+        string memory description,
+        uint256 goal,
+        uint256 deadline,
+        string memory image
+    ) public returns (uint256) {
         Campaign storage campaign = campaigns[campaignsCount];
 
         require(bytes(title).length != 0, "campaign title cannot be empty");
-        require(deadline > block.timestamp, "campaign deadline cannot be in the past");
+        require(
+            deadline > block.timestamp,
+            "campaign deadline cannot be in the past"
+        );
         require(goal > 0, "campaign goal cannot be 0");
 
         campaign.owner = owner;
@@ -42,29 +52,31 @@ contract CrowdFunding {
         return campaignsCount - 1;
     }
 
-    function donateToCampaign(uint256 id) public payable returns (bool){
+    function donateToCampaign(uint256 id) public payable returns (bool) {
         require(msg.value > 0, "some amount must be donated");
         Campaign storage campaign = campaigns[id];
-        
-        (bool success,) = payable(campaign.owner).call{value: msg.value}("");
-        if (success){
+
+        (bool success, ) = payable(campaign.owner).call{value: msg.value}("");
+        if (success) {
             campaign.donators.push(msg.sender);
             campaign.donations.push(msg.value);
             campaign.raised = campaign.raised + msg.value;
-            if (campaign.raised > campaign.goal){
+            if (campaign.raised > campaign.goal) {
                 campaign.goalReached = true;
             }
         }
         return success;
     }
 
-    function getDonations(uint256 id) view public returns (address[] memory, uint256[] memory){
+    function getDonations(
+        uint256 id
+    ) public view returns (address[] memory, uint256[] memory) {
         return (campaigns[id].donators, campaigns[id].donations);
     }
-    
-    function getCampaigns() view public returns (Campaign[] memory) {
+
+    function getCampaigns() public view returns (Campaign[] memory) {
         Campaign[] memory campaignsArray = new Campaign[](campaignsCount);
-         for (uint256 i = 0; i < campaignsCount; i++) {
+        for (uint256 i = 0; i < campaignsCount; i++) {
             campaignsArray[i] = campaigns[i];
         }
 

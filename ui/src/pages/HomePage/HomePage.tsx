@@ -3,49 +3,104 @@ import Silder from '../../components/slider/Silder';
 import Button from '../../components/button/Button';
 import AvatarComponent from '../../components/avatar/Avatar';
 import AllCampaigns from '../../components/page-specific/HomeComponent/AllCampaigns';
+import {
+  useAddress,
+  useContract,
+  useMetamask,
+  useContractWrite,
+} from '@thirdweb-dev/react';
+import { useEffect, useState } from 'react';
+import useCampaign from '../../hooks/useCampaignHooks';
+import { ethers } from 'ethers';
+import toast from 'react-hot-toast';
+import SkeletonLoading from '../../components/loading/SkeletonLoading';
+import { getRandomNumber } from '../../utils/utils';
 
 const HomePage = () => {
+  const [campaigns, setCampaigns] = useState<any>([]);
+  const [campaignLoading, setCampaignLoading] = useState(true);
+  const { getCampaigns, contract, address } = useCampaign();
+  const [random, setRandom] = useState<number>();
+
+  const getAll = async () => {
+    try {
+      setCampaignLoading(true);
+      const res = await getCampaigns();
+      const parsedRes = res?.map((campaign: any, i: number) => ({
+        owner: campaign?.owner,
+        title: campaign?.title,
+        description: campaign?.description,
+        target: ethers.utils.formatEther(campaign?.goal.toString()),
+        deadline: campaign?.deadline.toNumber(),
+        amountCollected: ethers.utils.formatEther(campaign?.raised.toString()),
+        image: campaign?.image,
+        pId: i,
+        name: campaign?.fullName,
+      }));
+      setRandom(getRandomNumber(0, parsedRes?.length));
+      setCampaigns(parsedRes);
+      setCampaignLoading(false);
+    } catch (error) {
+      setCampaignLoading(false);
+      toast.error('Something went wrong. Contact admin');
+    }
+  };
+  useEffect(() => {
+    if (contract) getAll();
+  }, [contract]);
   return (
     <Layout>
       <div className="w-full max-w-[1000px] mt-10 mx-auto pb-10">
-        <div className="w-full grid grid-cols-2 gap-5">
-          <img
-            className="w-full"
-            src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=2886&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          />
-          <div className="mt-4">
-            <h1 className="text-2xl gradient-text-1 font-semibold">
-              Help this pussy build his home
-            </h1>
-            <p className="mt-8">
-              This is cute pussy who lost his home to unknown stranger so please
-              donate so this pussy can find new home to stay.
-            </p>
-            <div className="mt-5">
-              <Silder disabled={true} max={2} defaultVal={0.2} />
-            </div>
-            <div className="flex text-xl justify-between mt-4 w-full">
-              <p>Raised: 0.0002</p>
-
-              <p>Goal: 2.0000</p>
-            </div>
-
-            <div className="mt-5 flex flex-col gap-5">
-              <div>
-                <p>
-                  Campaign By :{' '}
-                  <span className="ml-3">
-                    <AvatarComponent />{' '}
-                  </span>{' '}
-                  Pussy Lover 69
-                </p>
+        {campaignLoading ? (
+          <SkeletonLoading />
+        ) : (
+          <div className="w-full grid grid-cols-2 gap-5">
+            <img className="w-full" src={campaigns[random as number]?.image} />
+            <div className="mt-4">
+              <h1 className="text-2xl gradient-text-1 font-semibold">
+                {campaigns[random as number]?.title}
+              </h1>
+              <p className="mt-8">{campaigns[random as number]?.description}</p>
+              <div className="mt-5">
+                <Silder
+                  disabled={true}
+                  max={Number(campaigns[random as number]?.target)}
+                  defaultVal={Number(
+                    campaigns[random as number]?.amountCollected
+                  )}
+                />
               </div>
-              <Button variant="primary">Donate Now</Button>
+              <div className="flex text-xl justify-between mt-4 w-full">
+                <p>
+                  Raised: {Number(campaigns[random as number]?.amountCollected)}
+                </p>
+
+                <p>Goal: {Number(campaigns[random as number]?.target)}</p>
+              </div>
+
+              <div className="mt-5 flex flex-col gap-5">
+                <div>
+                  <p>
+                    Campaign By :
+                    <span className="ml-3">
+                      {campaigns[random as number]?.name}
+                    </span>
+                  </p>
+                </div>
+                <Button variant="primary">Donate Now</Button>
+              </div>
             </div>
           </div>
+        )}
+
+        <div className="font-bold mt-20">
+          All Campaign ({campaigns?.length})
         </div>
-        <div className="font-bold mt-20">All Campaign (69)</div>
-        <AllCampaigns />
+        {campaignLoading ? (
+          <SkeletonLoading />
+        ) : (
+          <AllCampaigns data={campaigns} />
+        )}
       </div>
     </Layout>
   );

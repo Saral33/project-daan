@@ -2,12 +2,13 @@ import React from 'react';
 
 type InputProps = {
   value?: string;
-  onChange?: () => void;
+  onChange?: (e: any) => void;
   placeholder?: string;
   label?: string;
   required?: boolean;
   type?: string;
   description?: boolean;
+  name?: string;
 };
 const Input = ({
   value,
@@ -17,6 +18,7 @@ const Input = ({
   required,
   type = 'text',
   description = false,
+  name,
 }: InputProps) => {
   return (
     <div className="space-y-3 text-gray-400">
@@ -25,20 +27,22 @@ const Input = ({
       </label>
       {description ? (
         <textarea
+          name={name}
           placeholder={placeholder}
           required={required}
           value={value}
           onChange={onChange}
-          className="w-full min-h-[160px] bg-transparent py-1 px-4 border outline-none border-gray-500 rounded-md"
+          className="w-full text-gray-200 min-h-[160px] bg-transparent py-1 px-4 border outline-none border-gray-500 rounded-md"
         />
       ) : (
         <input
+          name={name}
           type={type}
           required={required}
           placeholder={placeholder}
           onChange={onChange}
           value={value}
-          className="w-full bg-transparent py-1 px-4 border outline-none border-gray-500 rounded-md"
+          className="w-full text-gray-200 bg-transparent py-1 px-4 border outline-none border-gray-500 rounded-md"
         />
       )}
     </div>

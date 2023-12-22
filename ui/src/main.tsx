@@ -1,22 +1,35 @@
-import React from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
-import "./styles/globals.css";
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import { ThirdwebProvider, ChainId } from '@thirdweb-dev/react';
+import { Sepolia } from '@thirdweb-dev/chains';
+import './styles/globals.css';
+import { Toaster } from 'react-hot-toast';
 
-// This is the chain your dApp will work on.
-// Change this to the chain your app is built for.
-// You can also import additional chains from `@thirdweb-dev/chains` and pass them directly.
-const activeChain = "ethereum";
-
-const container = document.getElementById("root");
+const container = document.getElementById('root');
 const root = createRoot(container!);
 root.render(
   <React.StrictMode>
     <ThirdwebProvider
-      clientId={import.meta.env.VITE_TEMPLATE_CLIENT_ID}
-      activeChain={activeChain}
+      activeChain={Sepolia}
+      clientId={'ba812b0f7e7a03fa738eed6678956ad7'}
     >
+      <Toaster
+        toastOptions={{
+          success: {
+            style: {
+              background: 'green',
+            },
+          },
+          error: {
+            style: {
+              background: 'red',
+              color: 'white',
+              textTransform: 'capitalize',
+            },
+          },
+        }}
+      />
       <App />
     </ThirdwebProvider>
   </React.StrictMode>

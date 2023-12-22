@@ -6,7 +6,7 @@ const PopoverDemo = () => (
   <Popover.Root>
     <Popover.Trigger asChild>
       <button
-        className="IconButton bg-gray-800 rounded-full p-2 "
+        className=" bg-gray-800 rounded-full p-2 "
         aria-label="Update dimensions"
       >
         SG
