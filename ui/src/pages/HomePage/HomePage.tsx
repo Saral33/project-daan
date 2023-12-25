@@ -1,14 +1,7 @@
 import Layout from '../../layout/Layout';
 import Silder from '../../components/slider/Silder';
 import Button from '../../components/button/Button';
-import AvatarComponent from '../../components/avatar/Avatar';
 import AllCampaigns from '../../components/page-specific/HomeComponent/AllCampaigns';
-import {
-  useAddress,
-  useContract,
-  useMetamask,
-  useContractWrite,
-} from '@thirdweb-dev/react';
 import { useEffect, useState } from 'react';
 import useCampaign from '../../hooks/useCampaignHooks';
 import { ethers } from 'ethers';
@@ -17,10 +10,24 @@ import SkeletonLoading from '../../components/loading/SkeletonLoading';
 import { getRandomNumber } from '../../utils/utils';
 
 const HomePage = () => {
-  const [campaigns, setCampaigns] = useState<any>([]);
+  const [campaigns, setCampaigns] = useState<any[]>([]);
+  const [filteredCampaigns, setFilteredCampaigns] = useState<any[]>([]);
+  const [filtered, setFiltered] = useState<boolean>(true);
+
   const [campaignLoading, setCampaignLoading] = useState(true);
   const { getCampaigns, contract, address } = useCampaign();
   const [random, setRandom] = useState<number>();
+
+  const searchCampaigns = (searchTerm: string) => {
+    const filteredCampaigns = campaigns.filter(campaign =>
+      campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) || campaign.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredCampaigns(filteredCampaigns);
+    setFiltered(false);
+    if(searchTerm === ""){
+      setFiltered(true)
+    }
+  }
 
   const getAll = async () => {
     try {
@@ -39,6 +46,7 @@ const HomePage = () => {
       }));
       setRandom(getRandomNumber(0, parsedRes?.length));
       setCampaigns(parsedRes);
+      setFilteredCampaigns(parsedRes);
       setCampaignLoading(false);
     } catch (error) {
       setCampaignLoading(false);
@@ -49,11 +57,11 @@ const HomePage = () => {
     if (contract) getAll();
   }, [contract]);
   return (
-    <Layout>
+    <Layout searchCampaigns={searchCampaigns}>
       <div className="w-full max-w-[1000px] mt-10 mx-auto pb-10">
         {campaignLoading ? (
           <SkeletonLoading />
-        ) : (
+        ) : (filtered &&
           <div className="w-full grid grid-cols-2 gap-5">
             <img className="w-full" src={campaigns[random as number]?.image} />
             <div>
@@ -94,12 +102,12 @@ const HomePage = () => {
         )}
 
         <div className="font-bold mt-20">
-          All Campaigns ({campaigns?.length})
+          {filtered ? "All Campaigns": "Filtered Campaigns"} ({filteredCampaigns?.length})
         </div>
         {campaignLoading ? (
           <SkeletonLoading />
         ) : (
-          <AllCampaigns data={campaigns} />
+          <AllCampaigns data={filteredCampaigns} />
         )}
       </div>
     </Layout>
