@@ -56,7 +56,7 @@ const HomePage = () => {
         ) : (
           <div className="w-full grid grid-cols-2 gap-5">
             <img className="w-full" src={campaigns[random as number]?.image} />
-            <div className="mt-4">
+            <div>
               <h1 className="text-2xl gradient-text-1 font-semibold">
                 {campaigns[random as number]?.title}
               </h1>
@@ -72,19 +72,19 @@ const HomePage = () => {
               </div>
               <div className="flex text-xl justify-between mt-4 w-full">
                 <p>
-                  Raised: {Number(campaigns[random as number]?.amountCollected)}
+                  Raised: {campaigns[random as number]?.amountCollected}
                 </p>
 
-                <p>Goal: {Number(campaigns[random as number]?.target)}</p>
+                <p>Goal: {campaigns[random as number]?.target}</p>
               </div>
 
               <div className="mt-5 flex flex-col gap-5">
                 <div>
                   <p>
-                    Campaign By :
+                    Campaign By :{' '}
                     <span className="ml-3">
-                      {campaigns[random as number]?.name}
-                    </span>
+                      {campaigns[random as number]?.name} ({campaigns[random as number]?.owner})
+                    </span>{' '}
                   </p>
                 </div>
                 <Button variant="primary">Donate Now</Button>
@@ -94,7 +94,7 @@ const HomePage = () => {
         )}
 
         <div className="font-bold mt-20">
-          All Campaign ({campaigns?.length})
+          All Campaigns ({campaigns?.length})
         </div>
         {campaignLoading ? (
           <SkeletonLoading />

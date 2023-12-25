@@ -108,7 +108,7 @@ const CreatePage = () => {
                 <Input
                   value={form.image}
                   required
-                  placeholder="Eg: https://unspalsh.com/images/123"
+                  placeholder="Eg: https://unsplash.com/images/123"
                   label="Image Url"
                   onChange={(e) => handleFormFieldChange('image', e)}
                 />
@@ -118,7 +118,7 @@ const CreatePage = () => {
                   value={form.description}
                   description
                   required
-                  placeholder="Tell people why you need this fund. Write short description so that people know your motive towards the fund"
+                  placeholder="Tell people why you need this fund. Write a short description so that people know your motive towards the fund."
                   label="Description"
                   onChange={(e) => handleFormFieldChange('description', e)}
                 />
