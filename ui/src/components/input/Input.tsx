@@ -1,7 +1,7 @@
 import React from 'react';
 
 type InputProps = {
-  value?: string;
+  value?: string | number;
   onChange?: (e: any) => void;
   placeholder?: string;
   label?: string;

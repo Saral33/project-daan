@@ -7,14 +7,15 @@ import Layout from '../../../layout/Layout';
 import SkeletonLoading from '../../loading/SkeletonLoading';
 import Input from '../../input/Input';
 import Button from '../../button/Button';
+import LoadingDialog from '../../dialog/LoadingDialog';
 
 const CampaignDetails = () => {
   const [presentCampaign, setPresentCampaign] = useState<any>({});
   const [campaignLoading, setCampaignLoading] = useState(true);
-  const { getCampaigns, contract, address } = useCampaign();
+  const { getCampaigns, contract, donate } = useCampaign();
+  const [amount, setAmount] = useState(0);
   const params = useParams();
-  console.log(params);
-
+  const [loading, setLoading] = useState(false);
   const getAll = async () => {
     try {
       setCampaignLoading(true);
@@ -46,8 +47,30 @@ const CampaignDetails = () => {
       getAll();
     }
   }, [contract]);
+  const donateHandler = async (id: number) => {
+    if (amount <= 0) {
+      return;
+    }
+    donate(id, amount.toString())
+      .then((res) => {
+        if (res) {
+          setLoading(false);
+
+          toast.success('Successfully donated. Thanks for your donation');
+        }
+      })
+      .catch((err) =>
+        toast.error(
+          'Failed. Please check your fund.If issue persists contact the admin'
+        )
+      );
+  };
   return (
     <Layout>
+      <LoadingDialog
+        open={loading}
+        message="Your operation is being processed"
+      />
       <div className="w-full max-w-[1100px]  mx-auto pb-10">
         <div className="mt-10">
           {campaignLoading ? (
@@ -76,12 +99,23 @@ const CampaignDetails = () => {
                   <h1 className="font-bold text-2xl pb-5  text-center">
                     Donate
                   </h1>
-                  <Input placeholder="Eg: 2.0" label="Fund Amount" />
+                  <Input
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    placeholder="Eg: 2.0"
+                    label="Fund Amount"
+                  />
                   <div className="p-4 w-full text-gray-500 mt-5 bg-black">
                     World Need more people like you. Keep up the good work 👊
                   </div>
                   <div className="mt-4 w-full flex justify-stretch">
-                    <Button variant="primary">Donate</Button>
+                    <Button
+                      onClick={() => donateHandler(Number(params?.id))}
+                      variant="primary"
+                    >
+                      Donate
+                    </Button>
                   </div>
                 </div>
               </div>

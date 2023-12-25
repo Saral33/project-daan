@@ -5,16 +5,7 @@ import useCampaign from '../../../hooks/useCampaignHooks';
 import { useNavigate } from 'react-router-dom';
 
 const AllCampaigns = ({ data }: { data: any }) => {
-  const { donate, contract, address } = useCampaign();
   const navigate = useNavigate();
-  const donateHandler = async (id: number) => {
-    donate(id, '0.01')
-      .then((res) => {
-        if (res) {
-        }
-      })
-      .catch((err) => console.log(err));
-  };
   return (
     <div className="mt-2">
       <div className="grid grid-cols-3 gap-8">

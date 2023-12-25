@@ -18,7 +18,7 @@ const Button = ({ children, variant, onClick, type }: ButtonProps) => {
     <button
       type={type}
       onClick={onClick}
-      className={`${variantTypes[variant]} !cursor-pointer px-2 py-2 outline-none rounded-md focus:border-none text-sm font-semibold`}
+      className={`${variantTypes[variant]} !cursor-pointer px-2 py-2 w-full outline-none rounded-md focus:border-none text-sm font-semibold`}
     >
       {children}
     </button>
