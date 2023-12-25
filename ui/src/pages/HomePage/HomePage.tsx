@@ -12,7 +12,7 @@ import { getRandomNumber } from '../../utils/utils';
 const HomePage = () => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
   const [filteredCampaigns, setFilteredCampaigns] = useState<any[]>([]);
-  const [filtered, setFiltered] = useState<boolean>(true);
+  const [filtered, setFiltered] = useState<boolean>(false);
 
   const [campaignLoading, setCampaignLoading] = useState(true);
   const { getCampaigns, contract, address } = useCampaign();
@@ -23,9 +23,9 @@ const HomePage = () => {
       campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) || campaign.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredCampaigns(filteredCampaigns);
-    setFiltered(false);
+    setFiltered(true);
     if(searchTerm === ""){
-      setFiltered(true)
+      setFiltered(false)
     }
   }
 
@@ -61,7 +61,7 @@ const HomePage = () => {
       <div className="w-full max-w-[1000px] mt-10 mx-auto pb-10">
         {campaignLoading ? (
           <SkeletonLoading />
-        ) : (filtered &&
+        ) : (!filtered &&
           <div className="w-full grid grid-cols-2 gap-5">
             <img className="w-full" src={campaigns[random as number]?.image} />
             <div>
@@ -102,7 +102,7 @@ const HomePage = () => {
         )}
 
         <div className="font-bold mt-20">
-          {filtered ? "All Campaigns": "Filtered Campaigns"} ({filteredCampaigns?.length})
+          {!filtered ? "All Campaigns": "Filtered Campaigns"} ({filteredCampaigns?.length})
         </div>
         {campaignLoading ? (
           <SkeletonLoading />
