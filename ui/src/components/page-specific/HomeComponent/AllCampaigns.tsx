@@ -1,8 +1,20 @@
 import Silder from '../../slider/Silder';
 
 import Button from '../../button/Button';
+import useCampaign from '../../../hooks/useCampaignHooks';
+import { useNavigate } from 'react-router-dom';
 
 const AllCampaigns = ({ data }: { data: any }) => {
+  const { donate, contract, address } = useCampaign();
+  const navigate = useNavigate();
+  const donateHandler = async (id: number) => {
+    donate(id, '0.01')
+      .then((res) => {
+        if (res) {
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className="mt-2">
       <div className="grid grid-cols-3 gap-8">
@@ -53,7 +65,12 @@ const AllCampaigns = ({ data }: { data: any }) => {
                     </span>{' '}
                   </p>
                 </div>
-                <Button variant="primary">Donate Now</Button>
+                <Button
+                  onClick={() => navigate(`/details/${el?.pId}`)}
+                  variant="primary"
+                >
+                  View Details
+                </Button>
               </div>
             </div>
           </div>

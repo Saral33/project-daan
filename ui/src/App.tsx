@@ -7,6 +7,7 @@ import { lazy, Suspense } from 'react';
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const CreatePage = lazy(() => import('./pages/CreatePage/CreatePage'));
 const ProfilePage = lazy(() => import('./pages/Profile/ProfilePage'));
+const DetailsPage = lazy(() => import('./pages/DetailsPage/DetailsPage'));
 const router = createBrowserRouter([
   {
     path: '/',
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: '/profile',
     element: <ProfilePage />,
+  },
+  {
+    path: '/details/:id',
+    element: <DetailsPage />,
   },
 ]);
 export default function Home() {
