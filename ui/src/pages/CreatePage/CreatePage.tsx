@@ -107,11 +107,10 @@ const CreatePage = () => {
               <div className=" col-span-6">
                 <Input
                   value={form.image}
-                  type="number"
                   required
                   placeholder="Eg: https://unspalsh.com/images/123"
                   label="Image Url"
-                  onChange={(e) => handleFormFieldChange('goal', e)}
+                  onChange={(e) => handleFormFieldChange('image', e)}
                 />
               </div>
               <div className="col-span-12">
