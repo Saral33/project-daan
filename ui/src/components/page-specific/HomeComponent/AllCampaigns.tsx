@@ -4,12 +4,14 @@ import Button from '../../button/Button';
 import { useNavigate } from 'react-router-dom';
 import { getDateString } from '../../../utils/utils';
 
-
 const AllCampaigns = ({ data }: { data: any }) => {
   const navigate = useNavigate();
   return (
     <div className="mt-2">
-      <div className="grid grid-cols-3 gap-8">
+      <div
+        className="grid grid-cols-1 justify-items-center md:justify-items-stretch
+       md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
         {data?.map((el: any) => (
           <div key={el.pId} className="card mt-8">
             <img src={el.image} alt={el.title} />

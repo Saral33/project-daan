@@ -23,3 +23,19 @@ body {
   color: #e7e8e8;
   background: #070707;
 }
+.react-calendar {
+  background-color: #1c1c24 !important;
+}
+
+.react-calendar__tile:disabled {
+  background-color: #282848 !important;
+}
+.react-calendar__navigation button {
+  background-color: transparent !important;
+}
+.react-calendar__tile--now {
+  background-color: #0bb828 !important;
+}
+.react-date-picker__button svg {
+  filter: brightness(0) invert(1);
+}

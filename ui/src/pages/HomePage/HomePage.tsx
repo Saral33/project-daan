@@ -8,6 +8,7 @@ import { ethers } from 'ethers';
 import toast from 'react-hot-toast';
 import SkeletonLoading from '../../components/loading/SkeletonLoading';
 import { getRandomNumber, getDateString } from '../../utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
@@ -19,15 +20,17 @@ const HomePage = () => {
   const [random, setRandom] = useState<number>();
 
   const searchCampaigns = (searchTerm: string) => {
-    const filteredCampaigns = campaigns.filter(campaign =>
-      campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) || campaign.description.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredCampaigns = campaigns.filter(
+      (campaign) =>
+        campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        campaign.description.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredCampaigns(filteredCampaigns);
     setFiltered(true);
-    if(searchTerm === ""){
-      setFiltered(false)
+    if (searchTerm === '') {
+      setFiltered(false);
     }
-  }
+  };
 
   const getAll = async () => {
     try {
@@ -43,7 +46,7 @@ const HomePage = () => {
         image: campaign?.image,
         pId: i,
         name: campaign?.fullName,
-        closed: campaign?.deadline.toNumber() < new Date().getTime()/1000  // In seconds
+        closed: campaign?.deadline.toNumber() < new Date().getTime() / 1000, // In seconds
       }));
       setRandom(getRandomNumber(0, parsedRes?.length));
       setCampaigns(parsedRes);
@@ -54,6 +57,7 @@ const HomePage = () => {
       toast.error('Something went wrong. Contact admin');
     }
   };
+  const navigate = useNavigate();
   useEffect(() => {
     if (contract) getAll();
   }, [contract]);
@@ -62,51 +66,66 @@ const HomePage = () => {
       <div className="w-full max-w-[1000px] mt-10 mx-auto pb-10">
         {campaignLoading ? (
           <SkeletonLoading />
-        ) : (!filtered &&
-          <div className="w-full grid grid-cols-2 gap-5">
-            <img className="w-full" src={campaigns[random as number]?.image} />
-            <div>
-              <h1 className="text-2xl gradient-text-1 font-semibold">
-                {campaigns[random as number]?.title}
-              </h1>
-              <p className="mt-4">{campaigns[random as number]?.description}</p>
-              <div className="mt-2">
-                <Silder
-                  disabled={true}
-                  max={Number(campaigns[random as number]?.target)}
-                  defaultVal={Number(
-                    campaigns[random as number]?.amountCollected
-                  )}
-                />
-              </div>
-              <div className="flex text-xl justify-between mt-4 w-full">
-                <p>
-                  Raised: {campaigns[random as number]?.amountCollected}
+        ) : (
+          !filtered && (
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5">
+              <img
+                className="w-full"
+                src={campaigns[random as number]?.image}
+              />
+              <div>
+                <h1 className="text-2xl gradient-text-1 font-semibold">
+                  {campaigns[random as number]?.title}
+                </h1>
+                <p className="mt-4">
+                  {campaigns[random as number]?.description}
                 </p>
-
-                <p>Goal: {campaigns[random as number]?.target}</p>
-              </div>
-
-              <div className="mt-5 flex flex-col gap-5">
-                <div>
-                  <p>
-                    Campaign By :{' '}
-                    <span className="ml-3">
-                      {campaigns[random as number]?.name} ({campaigns[random as number]?.owner})
-                    </span>{' '}
-                  </p>
+                <div className="mt-2">
+                  <Silder
+                    disabled={true}
+                    max={Number(campaigns[random as number]?.target)}
+                    defaultVal={Number(
+                      campaigns[random as number]?.amountCollected
+                    )}
+                  />
                 </div>
-                <div className="w-full">
-                  Deadline: {getDateString(campaigns[random as number]?.deadline)} {campaigns[random as number]?.closed && "(Closed)"}
+                <div className="flex text-xl justify-between mt-4 w-full">
+                  <p>Raised: {campaigns[random as number]?.amountCollected}</p>
+
+                  <p>Goal: {campaigns[random as number]?.target}</p>
                 </div>
-                <Button variant="primary">Donate Now</Button>
+
+                <div className="mt-5 flex flex-col gap-5">
+                  <div>
+                    <p>
+                      Campaign By :{' '}
+                      <span className="ml-3 break-words">
+                        {campaigns[random as number]?.name} (
+                        {campaigns[random as number]?.owner})
+                      </span>{' '}
+                    </p>
+                  </div>
+                  <div className="w-full">
+                    Deadline:{' '}
+                    {getDateString(campaigns[random as number]?.deadline)}
+                  </div>
+                  <Button
+                    onClick={() =>
+                      navigate(`/details/${campaigns[random as number]?.pId}`)
+                    }
+                    variant="primary"
+                  >
+                    View Details
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
+          )
         )}
 
         <div className="font-bold mt-20">
-          {!filtered ? "All Campaigns": "Filtered Campaigns"} ({filteredCampaigns?.length})
+          {!filtered ? 'All Campaigns' : 'Filtered Campaigns'} (
+          {filteredCampaigns?.length})
         </div>
         {campaignLoading ? (
           <SkeletonLoading />

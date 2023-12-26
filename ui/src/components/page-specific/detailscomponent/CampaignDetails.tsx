@@ -17,7 +17,7 @@ const CampaignDetails = () => {
   const [amount, setAmount] = useState(0);
   const params = useParams();
   const [loading, setLoading] = useState(false);
-  const [donations, setDonations] = useState<any[]>([])
+  const [donations, setDonations] = useState<any[]>([]);
   const getAll = async () => {
     try {
       setCampaignLoading(true);
@@ -32,7 +32,7 @@ const CampaignDetails = () => {
         image: campaign?.image,
         pId: i,
         name: campaign?.fullName,
-        closed: campaign?.deadline.toNumber() < new Date().getTime()/1000  // In seconds
+        closed: campaign?.deadline.toNumber() < new Date().getTime() / 1000, // In seconds
       }));
       const presentCampaign = parsedRes.find(
         (e: any) => Number(e.pId) === Number(params.id)
@@ -41,18 +41,18 @@ const CampaignDetails = () => {
       setPresentCampaign(presentCampaign);
       setCampaignLoading(false);
 
-      const donationsRes = await getDonations(Number(params.id))
+      const donationsRes = await getDonations(Number(params.id));
       const donations = donationsRes[0].map((donator: string, i: number) => ({
         donator: donator,
-        value: ethers.utils.formatEther(donationsRes[1][i].toString())
-      }))
-      setDonations(donations)
+        value: ethers.utils.formatEther(donationsRes[1][i].toString()),
+      }));
+      setDonations(donations);
     } catch (error) {
       setCampaignLoading(false);
       toast.error('Something went wrong. Contact admin');
     }
   };
-  
+
   useEffect(() => {
     if (contract) {
       getAll();
@@ -74,9 +74,8 @@ const CampaignDetails = () => {
       .catch((err) => {
         toast.error(
           'Failed. Please check your fund. If issue persists, contact the admin'
-        )
-      }
-      );
+        );
+      });
   };
   return (
     <Layout>
@@ -84,19 +83,19 @@ const CampaignDetails = () => {
         open={loading}
         message="Your operation is being processed"
       />
-      <div className="w-full max-w-[1100px]  mx-auto pb-10">
+      <div className=" max-w-[1100px] w-full  mx-auto pb-10">
         <div className="mt-10">
           {campaignLoading ? (
             <SkeletonLoading />
           ) : (
-            <div>
+            <div className="px-6">
               <img
                 className="w-full object-cover max-h-[500px]"
                 src={presentCampaign?.image}
               />
-              <div className="mt-5 flex gap-5 justify-between">
-                <div className="p-6">
-                  <h1 className="text-2xl font-bold">
+              <div className="mt-5  flex flex-col items-center lg:flex-row gap-5 justify-between">
+                <div className="lg:p-6 w-full">
+                  <h1 className="text-2xl  font-bold">
                     {presentCampaign?.title}
                   </h1>
                   <h2 className="mt-7 text-xl font-bold">Creator:</h2>
@@ -109,44 +108,52 @@ const CampaignDetails = () => {
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Deadline:</h2>
                   <p className="text-lg mt-1 text-gray-300">
-                    {getDateString(presentCampaign?.deadline)} {presentCampaign?.closed && "(Closed)"}
+                    {getDateString(presentCampaign?.deadline)}{' '}
+                    {presentCampaign?.closed && '(Closed)'}
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Donations:</h2>
-                  { donations.length == 0 ? 
-                  <p className="mt-1">No donations yet. Be the first one to donate and kickstart this campaign!</p> :
-                   donations.map(donation => (
-                    <div className='flex gap-4 mt-2'>
-                      <p className="mt-2 text-gray-300">{donation.donator}</p>
-                      <p className="mt-2 text-gray-300">{donation.value} ETH</p>
-                    </div>
-                  ))}
+                  {donations.length == 0 ? (
+                    <p className="mt-1">
+                      No donations yet. Be the first one to donate and kickstart
+                      this campaign!
+                    </p>
+                  ) : (
+                    donations.map((donation) => (
+                      <div className="flex gap-4 mt-2">
+                        <p className="mt-2 text-gray-300">{donation.donator}</p>
+                        <p className="mt-2 text-gray-300">
+                          {donation.value} ETH
+                        </p>
+                      </div>
+                    ))
+                  )}
                 </div>
-                {
-                  !presentCampaign?.closed &&
-                <div className="bg-input w-full max-w-[400px] p-6">
-                  <h1 className="font-bold text-2xl pb-5  text-center">
-                    Donate
-                  </h1>
-                  <Input
-                    type="number"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    placeholder="Eg: 2.0"
-                    label="Fund Amount"
-                  />
-                  <div className="p-4 w-full text-gray-300 mt-5 bg-black">
-                    The world needs more people like you. Keep up the good work 👊
-                  </div>
-                  <div className="mt-4 w-full flex justify-stretch">
-                    <Button
-                      onClick={() => donateHandler(Number(params?.id))}
-                      variant="primary"
-                    >
+                {!presentCampaign?.closed && (
+                  <div className="bg-input w-full max-w-[400px] p-6">
+                    <h1 className="font-bold text-2xl pb-5  text-center">
                       Donate
-                    </Button>
+                    </h1>
+                    <Input
+                      type="number"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      placeholder="Eg: 2.0"
+                      label="Fund Amount"
+                    />
+                    <div className="p-4 w-full text-gray-300 mt-5 bg-black">
+                      The world needs more people like you. Keep up the good
+                      work 👊
+                    </div>
+                    <div className="mt-4 w-full flex justify-stretch">
+                      <Button
+                        onClick={() => donateHandler(Number(params?.id))}
+                        variant="primary"
+                      >
+                        Donate
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              }
+                )}
               </div>
             </div>
           )}
