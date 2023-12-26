@@ -9,6 +9,7 @@ import Input from '../../input/Input';
 import Button from '../../button/Button';
 import LoadingDialog from '../../dialog/LoadingDialog';
 import { getDateString } from '../../../utils/utils';
+import Silder from '../../slider/Silder';
 
 const CampaignDetails = () => {
   const [presentCampaign, setPresentCampaign] = useState<any>({});
@@ -17,7 +18,7 @@ const CampaignDetails = () => {
   const [amount, setAmount] = useState(0);
   const params = useParams();
   const [loading, setLoading] = useState(false);
-  const [donations, setDonations] = useState<any[]>([])
+  const [donations, setDonations] = useState<any[]>([]);
   const getAll = async () => {
     try {
       setCampaignLoading(true);
@@ -32,7 +33,7 @@ const CampaignDetails = () => {
         image: campaign?.image,
         pId: i,
         name: campaign?.fullName,
-        closed: campaign?.deadline.toNumber() < new Date().getTime()/1000  // In seconds
+        closed: campaign?.deadline.toNumber() < new Date().getTime() / 1000, // In seconds
       }));
       const presentCampaign = parsedRes.find(
         (e: any) => Number(e.pId) === Number(params.id)
@@ -41,12 +42,12 @@ const CampaignDetails = () => {
       setPresentCampaign(presentCampaign);
       setCampaignLoading(false);
 
-      const donationsRes = await getDonations(Number(params.id))
+      const donationsRes = await getDonations(Number(params.id));
       const donations = donationsRes[0].map((donator: string, i: number) => ({
         donator: donator,
-        value: ethers.utils.formatEther(donationsRes[1][i].toString())
-      }))
-      setDonations(donations)
+        value: ethers.utils.formatEther(donationsRes[1][i].toString()),
+      }));
+      setDonations(donations);
     } catch (error) {
       setCampaignLoading(false);
       toast.error('Something went wrong. Contact admin');
@@ -108,45 +109,59 @@ const CampaignDetails = () => {
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Deadline:</h2>
                   <p className="text-lg mt-1 text-gray-300">
-                    {getDateString(presentCampaign?.deadline)} {presentCampaign?.closed && "(Closed)"}
+                    {getDateString(presentCampaign?.deadline)}{' '}
+                    {presentCampaign?.closed && '(Closed)'}
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Donations:</h2>
-                  { donations.length == 0 ? 
-                  <p className="mt-1">No donations yet. Be the first one to donate and kickstart this campaign!</p> :
-                   donations.map(donation => (
-                    <div className='flex gap-4 mt-1'>
-                      <p className="text-gray-300">{donation.donator}</p>
-                      <p className="text-gray-300">{donation.value} ETH</p>
-                    </div>
-                  ))}
+                  {donations.length == 0 ? (
+                    <p className="mt-1">
+                      No donations yet. Be the first one to donate and kickstart
+                      this campaign!
+                    </p>
+                  ) : (
+                    donations.map((donation) => (
+                      <div className="flex gap-4 mt-1">
+                        <p className="text-gray-300">{donation.donator}</p>
+                        <p className="text-gray-300">{donation.value} ETH</p>
+                      </div>
+                    ))
+                  )}
                 </div>
-                {
-                  !presentCampaign?.closed &&
-                <div className="bg-input w-full max-w-[400px] p-6">
-                  <h1 className="font-bold text-2xl pb-5  text-center">
-                    Donate
-                  </h1>
-                  <Input
-                    type="number"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    placeholder="Eg: 2.0"
-                    label="Fund Amount"
-                  />
-                  <div className="p-4 w-full text-gray-300 mt-5 bg-black">
-                    The world needs more people like you. Keep up the good work
-                    👊
-                  </div>
-                  <div className="mt-4 w-full flex justify-stretch">
-                    <Button
-                      onClick={() => donateHandler(Number(params?.id))}
-                      variant="primary"
-                    >
+                {!presentCampaign?.closed && (
+                  <div className="bg-input w-full max-w-[400px] p-6">
+                    <h1 className="font-bold text-2xl pb-5  text-center">
                       Donate
-                    </Button>
+                    </h1>
+                    <Input
+                      type="number"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      placeholder="Eg: 2.0"
+                      label="Fund Amount"
+                    />
+                    <div className="p-4 mb-2 w-full text-gray-300 mt-5 bg-black">
+                      The world needs more people like you. Keep up the good
+                      work 👊
+                    </div>
+                    <Silder
+                      defaultVal={Number(presentCampaign.amountCollected)}
+                      max={Number(presentCampaign.target)}
+                    />
+                    <div className="flex text-xl justify-between mt-4 w-full">
+                      <p>Raised: {presentCampaign.amountCollected}</p>
+
+                      <p>Goal: {presentCampaign.target}</p>
+                    </div>
+                    <div className="mt-4 w-full flex justify-stretch">
+                      <Button
+                        onClick={() => donateHandler(Number(params?.id))}
+                        variant="primary"
+                      >
+                        Donate
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              }
+                )}
               </div>
             </div>
           )}

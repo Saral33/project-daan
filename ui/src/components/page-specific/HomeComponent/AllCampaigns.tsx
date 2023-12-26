@@ -14,7 +14,7 @@ const AllCampaigns = ({ data }: { data: any }) => {
       >
         {data?.map((el: any) => (
           <div key={el.pId} className="card mt-8">
-            <img src={el.image} alt={el.title} />
+            <img className="!h-[200px]" src={el.image} alt={el.title} />
             <div className="card-text">
               <div className="h-[150px] ">
                 <h2
@@ -60,7 +60,8 @@ const AllCampaigns = ({ data }: { data: any }) => {
                   </p>
                 </div>
                 <div className="w-full">
-                  Deadline: {getDateString(el?.deadline)} {el?.closed && "(Closed)"}
+                  Deadline: {getDateString(el?.deadline)}{' '}
+                  {el?.closed && '(Closed)'}
                 </div>
                 <Button
                   onClick={() => navigate(`/details/${el?.pId}`)}
