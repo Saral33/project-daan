@@ -22,11 +22,11 @@ const CreatePage = () => {
     description: '',
     goal: '',
     image: '',
-    deadline: new Date()
+    deadline: new Date(),
   });
   const [loading, setLoading] = useState(false);
   const handleFormFieldChange = (fieldName: string, e: any) => {
-    if(fieldName == "deadline"){
+    if (fieldName == 'deadline') {
       setForm({ ...form, [fieldName]: e });
     } else {
       setForm({ ...form, [fieldName]: e.target.value });
@@ -45,7 +45,7 @@ const CreatePage = () => {
             form.title,
             form.description,
             ethers.utils.parseUnits(form.goal, 18),
-            form.deadline.getTime()/1000, // In seconds
+            form.deadline.getTime() / 1000, // In seconds
             form.image,
           ],
         })
@@ -81,10 +81,10 @@ const CreatePage = () => {
       {/* <DialogModal /> */}
       <div className="max-w-[1150px] mt-20 mx-auto">
         <h1 className="text-3xl font-semibold">Create your campaign</h1>
-        <div className="mt-10 w-full bg-input py-10 px-5">
+        <div className="mt-10 w-full lg:bg-input py-10 px-5">
           <form onSubmit={submitHandler}>
             <div className="grid grid-cols-12 gap-5">
-              <div className=" col-span-6">
+              <div className="col-span-12 md:col-span-6">
                 <Input
                   value={form.fullName}
                   required
@@ -93,7 +93,7 @@ const CreatePage = () => {
                   onChange={(e) => handleFormFieldChange('fullName', e)}
                 />
               </div>
-              <div className=" col-span-6">
+              <div className=" col-span-12 md:col-span-6">
                 <Input
                   value={form.title}
                   required
@@ -102,7 +102,7 @@ const CreatePage = () => {
                   onChange={(e) => handleFormFieldChange('title', e)}
                 />
               </div>
-              <div className=" col-span-6">
+              <div className=" col-span-12 md:col-span-6">
                 <Input
                   value={form.goal}
                   type="number"
@@ -112,7 +112,7 @@ const CreatePage = () => {
                   onChange={(e) => handleFormFieldChange('goal', e)}
                 />
               </div>
-              <div className=" col-span-6">
+              <div className=" col-span-12 md:col-span-6">
                 <Input
                   value={form.image}
                   required
@@ -131,15 +131,16 @@ const CreatePage = () => {
                   onChange={(e) => handleFormFieldChange('description', e)}
                 />
               </div>
-              <div className="col-span-6">
-              <label className="flex ">
-                <span>Deadline*</span>{' '}
-              </label>
+              <div className="col-span-12 md:col-span-6">
+                <label className="flex ">
+                  <span>Deadline*</span>{' '}
+                </label>
                 <DatePicker
-                 onChange={(date) => handleFormFieldChange('deadline', date)} 
-                 value={form.deadline}
-                 minDate={new Date()}
-                 />
+                  className="w-full h-10 text-white"
+                  onChange={(date) => handleFormFieldChange('deadline', date)}
+                  value={form.deadline}
+                  minDate={new Date()}
+                />
               </div>
               {/* <div className="col-span-12">
                 <ImageUpload />

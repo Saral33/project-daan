@@ -52,7 +52,7 @@ const CampaignDetails = () => {
       toast.error('Something went wrong. Contact admin');
     }
   };
-  
+
   useEffect(() => {
     if (contract) {
       getAll();
@@ -74,9 +74,8 @@ const CampaignDetails = () => {
       .catch((err) => {
         toast.error(
           'Failed. Please check your fund. If issue persists, contact the admin'
-        )
-      }
-      );
+        );
+      });
   };
   return (
     <Layout>
@@ -84,19 +83,19 @@ const CampaignDetails = () => {
         open={loading}
         message="Your operation is being processed"
       />
-      <div className="w-full max-w-[1100px]  mx-auto pb-10">
+      <div className=" max-w-[1100px] w-full  mx-auto pb-10">
         <div className="mt-10">
           {campaignLoading ? (
             <SkeletonLoading />
           ) : (
-            <div>
+            <div className="px-6">
               <img
                 className="w-full object-cover max-h-[500px]"
                 src={presentCampaign?.image}
               />
-              <div className="mt-5 flex gap-5 justify-between">
-                <div className="p-6">
-                  <h1 className="text-2xl font-bold">
+              <div className="mt-5  flex flex-col items-center lg:flex-row gap-5 justify-between">
+                <div className="lg:p-6 w-full">
+                  <h1 className="text-2xl  font-bold">
                     {presentCampaign?.title}
                   </h1>
                   <h2 className="mt-7 text-xl font-bold">Creator:</h2>
@@ -115,9 +114,9 @@ const CampaignDetails = () => {
                   { donations.length == 0 ? 
                   <p className="mt-1">No donations yet. Be the first one to donate and kickstart this campaign!</p> :
                    donations.map(donation => (
-                    <div className='flex gap-4 mt-2'>
-                      <p className="mt-2 text-gray-300">{donation.donator}</p>
-                      <p className="mt-2 text-gray-300">{donation.value} ETH</p>
+                    <div className='flex gap-4 mt-1'>
+                      <p className="text-gray-300">{donation.donator}</p>
+                      <p className="text-gray-300">{donation.value} ETH</p>
                     </div>
                   ))}
                 </div>
@@ -135,7 +134,8 @@ const CampaignDetails = () => {
                     label="Fund Amount"
                   />
                   <div className="p-4 w-full text-gray-300 mt-5 bg-black">
-                    The world needs more people like you. Keep up the good work 👊
+                    The world needs more people like you. Keep up the good work
+                    👊
                   </div>
                   <div className="mt-4 w-full flex justify-stretch">
                     <Button
