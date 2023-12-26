@@ -13,10 +13,11 @@ import { getDateString } from '../../../utils/utils';
 const CampaignDetails = () => {
   const [presentCampaign, setPresentCampaign] = useState<any>({});
   const [campaignLoading, setCampaignLoading] = useState(true);
-  const { getCampaigns, contract, donate } = useCampaign();
+  const { getCampaigns, getDonations, contract, donate } = useCampaign();
   const [amount, setAmount] = useState(0);
   const params = useParams();
   const [loading, setLoading] = useState(false);
+  const [donations, setDonations] = useState<any[]>([])
   const getAll = async () => {
     try {
       setCampaignLoading(true);
@@ -39,6 +40,13 @@ const CampaignDetails = () => {
 
       setPresentCampaign(presentCampaign);
       setCampaignLoading(false);
+
+      const donationsRes = await getDonations(Number(params.id))
+      const donations = donationsRes[0].map((donator: string, i: number) => ({
+        donator: donator,
+        value: ethers.utils.formatEther(donationsRes[1][i].toString())
+      }))
+      setDonations(donations)
     } catch (error) {
       setCampaignLoading(false);
       toast.error('Something went wrong. Contact admin');
@@ -103,6 +111,13 @@ const CampaignDetails = () => {
                   <p className="text-lg mt-2 text-gray-300">
                     {getDateString(presentCampaign?.deadline)} {presentCampaign?.closed && "(Closed)"}
                   </p>
+                  <h2 className="mt-7 text-xl font-bold">Donations:</h2>
+                  { donations.map(donation => (
+                    <div className='flex gap-4'>
+                      <p className="mt-2 text-gray-300">{donation.donator}</p>
+                      <p className="mt-2 text-gray-300">{donation.value} ETH</p>
+                    </div>
+                  ))}
                 </div>
                 <div className="bg-input w-full max-w-[400px] p-6">
                   <h1 className="font-bold text-2xl pb-5  text-center">

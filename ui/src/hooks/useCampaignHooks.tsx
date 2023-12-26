@@ -26,7 +26,12 @@ const useCampaign = () => {
 
     return data;
   };
-  return { contract, createCampaign, address, connect, getCampaigns, donate };
+  const getDonations = async (pId: number) => {
+    const donations = await contract?.call('getDonations', [pId]);
+    return donations
+  }
+
+  return { contract, createCampaign, address, connect, getCampaigns, donate, getDonations };
 };
 
 export default useCampaign;
