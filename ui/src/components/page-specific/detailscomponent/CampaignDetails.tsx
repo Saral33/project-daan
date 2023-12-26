@@ -53,6 +53,7 @@ const CampaignDetails = () => {
     if (amount <= 0) {
       return;
     }
+    setLoading(true);
     donate(id, amount.toString())
       .then((res) => {
         if (res) {
@@ -61,10 +62,11 @@ const CampaignDetails = () => {
           toast.success('Successfully donated. Thanks for your donation');
         }
       })
-      .catch((err) =>
+      .catch((err) => {
         toast.error(
           'Failed. Please check your fund. If issue persists, contact the admin'
         )
+      }
       );
   };
   return (
