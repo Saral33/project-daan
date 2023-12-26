@@ -119,6 +119,8 @@ const CampaignDetails = () => {
                     </div>
                   ))}
                 </div>
+                {
+                  !presentCampaign?.closed &&
                 <div className="bg-input w-full max-w-[400px] p-6">
                   <h1 className="font-bold text-2xl pb-5  text-center">
                     Donate
@@ -142,6 +144,7 @@ const CampaignDetails = () => {
                     </Button>
                   </div>
                 </div>
+              }
               </div>
             </div>
           )}
