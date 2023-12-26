@@ -26,7 +26,6 @@ const CreatePage = () => {
   });
   const [loading, setLoading] = useState(false);
   const handleFormFieldChange = (fieldName: string, e: any) => {
-    console.log(e)
     if(fieldName == "deadline"){
       setForm({ ...form, [fieldName]: e });
     } else {
