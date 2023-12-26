@@ -8,6 +8,7 @@ import { ethers } from 'ethers';
 import toast from 'react-hot-toast';
 import SkeletonLoading from '../../components/loading/SkeletonLoading';
 import { getRandomNumber, getDateString } from '../../utils/utils';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
@@ -17,6 +18,7 @@ const HomePage = () => {
   const [campaignLoading, setCampaignLoading] = useState(true);
   const { getCampaigns, contract, address } = useCampaign();
   const [random, setRandom] = useState<number>();
+  const navigate = useNavigate();
 
   const searchCampaigns = (searchTerm: string) => {
     const filteredCampaigns = campaigns.filter(campaign =>
@@ -99,7 +101,11 @@ const HomePage = () => {
                 <div className="w-full">
                   Deadline: {getDateString(campaigns[random as number]?.deadline)} {campaigns[random as number]?.closed && "(Closed)"}
                 </div>
-                <Button variant="primary">Donate Now</Button>
+                <Button 
+                onClick={() => navigate(`/details/${campaigns[random as number]?.pId}`)} 
+                variant="primary">
+                  View Details
+                </Button>
               </div>
             </div>
           </div>
