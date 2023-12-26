@@ -43,7 +43,7 @@ const CampaignDetails = () => {
       toast.error('Something went wrong. Contact admin');
     }
   };
-  
+
   useEffect(() => {
     if (contract) {
       getAll();
@@ -65,9 +65,8 @@ const CampaignDetails = () => {
       .catch((err) => {
         toast.error(
           'Failed. Please check your fund. If issue persists, contact the admin'
-        )
-      }
-      );
+        );
+      });
   };
   return (
     <Layout>
@@ -75,23 +74,23 @@ const CampaignDetails = () => {
         open={loading}
         message="Your operation is being processed"
       />
-      <div className="w-full max-w-[1100px]  mx-auto pb-10">
+      <div className=" max-w-[1100px] w-full  mx-auto pb-10">
         <div className="mt-10">
           {campaignLoading ? (
             <SkeletonLoading />
           ) : (
-            <div>
+            <div className="px-6">
               <img
                 className="w-full object-cover max-h-[500px]"
                 src={presentCampaign?.image}
               />
-              <div className="mt-5 flex gap-5 justify-between">
-                <div className="p-6">
-                  <h1 className="text-2xl font-bold">
+              <div className="mt-5  flex flex-col items-center lg:flex-row gap-5 justify-between">
+                <div className="lg:p-6 w-full">
+                  <h1 className="text-2xl  font-bold">
                     {presentCampaign?.title}
                   </h1>
                   <h2 className="mt-7 text-xl font-bold">Creator:</h2>
-                  <p className="text-lg mt-2 text-gray-300">
+                  <p className="text-lg mt-2 text-gray-300 break-words">
                     {presentCampaign?.name} ({presentCampaign?.owner})
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Description:</h2>
@@ -103,7 +102,7 @@ const CampaignDetails = () => {
                     {getDateString(presentCampaign?.deadline)}
                   </p>
                 </div>
-                <div className="bg-input w-full max-w-[400px] p-6">
+                <div className="bg-input w-full lg:max-w-[400px] p-6">
                   <h1 className="font-bold text-2xl pb-5  text-center">
                     Donate
                   </h1>
@@ -115,7 +114,8 @@ const CampaignDetails = () => {
                     label="Fund Amount"
                   />
                   <div className="p-4 w-full text-gray-300 mt-5 bg-black">
-                    The world needs more people like you. Keep up the good work 👊
+                    The world needs more people like you. Keep up the good work
+                    👊
                   </div>
                   <div className="mt-4 w-full flex justify-stretch">
                     <Button
