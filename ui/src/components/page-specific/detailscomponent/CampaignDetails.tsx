@@ -91,19 +91,19 @@ const CampaignDetails = () => {
                     {presentCampaign?.title}
                   </h1>
                   <h2 className="mt-7 text-xl font-bold">Creator:</h2>
-                  <p className="text-lg mt-2 text-gray-500">
+                  <p className="text-lg mt-2 text-gray-300">
                     {presentCampaign?.name} ({presentCampaign?.owner})
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Description:</h2>
-                  <p className="text-lg mt-2 text-gray-500">
+                  <p className="text-lg mt-2 text-gray-300">
                     {presentCampaign?.description}
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Deadline:</h2>
-                  <p className="text-lg mt-2 text-gray-500">
+                  <p className="text-lg mt-2 text-gray-300">
                     {getDateString(presentCampaign?.deadline)}
                   </p>
                 </div>
-                <div className="bg-input w-full max-w-[300px] p-6">
+                <div className="bg-input w-full max-w-[400px] p-6">
                   <h1 className="font-bold text-2xl pb-5  text-center">
                     Donate
                   </h1>
@@ -114,7 +114,7 @@ const CampaignDetails = () => {
                     placeholder="Eg: 2.0"
                     label="Fund Amount"
                   />
-                  <div className="p-4 w-full text-gray-500 mt-5 bg-black">
+                  <div className="p-4 w-full text-gray-300 mt-5 bg-black">
                     The world needs more people like you. Keep up the good work 👊
                   </div>
                   <div className="mt-4 w-full flex justify-stretch">

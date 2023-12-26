@@ -21,7 +21,7 @@ const Input = ({
   name,
 }: InputProps) => {
   return (
-    <div className="space-y-3 text-gray-400">
+    <div className="space-y-3 text-gray-300">
       <label className="flex ">
         <span>{label}</span> {required && <span>*</span>}{' '}
       </label>
