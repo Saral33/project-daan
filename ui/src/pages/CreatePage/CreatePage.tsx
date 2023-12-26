@@ -9,6 +9,9 @@ import DialogModal from '../../components/dialog/Dialog';
 import toast from 'react-hot-toast';
 import LoadingDialog from '../../components/dialog/LoadingDialog';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-date-picker';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
 
 const CreatePage = () => {
   const { address, connect, createCampaign } = useCampaign();
@@ -19,10 +22,16 @@ const CreatePage = () => {
     description: '',
     goal: '',
     image: '',
+    deadline: new Date()
   });
   const [loading, setLoading] = useState(false);
   const handleFormFieldChange = (fieldName: string, e: any) => {
-    setForm({ ...form, [fieldName]: e.target.value });
+    console.log(e)
+    if(fieldName == "deadline"){
+      setForm({ ...form, [fieldName]: e });
+    } else {
+      setForm({ ...form, [fieldName]: e.target.value });
+    }
   };
   const navigate = useNavigate();
   const submitHandler = async (e: any) => {
@@ -37,7 +46,7 @@ const CreatePage = () => {
             form.title,
             form.description,
             ethers.utils.parseUnits(form.goal, 18),
-            1703827747,
+            form.deadline.getTime()/1000, // In seconds
             form.image,
           ],
         })
@@ -122,6 +131,16 @@ const CreatePage = () => {
                   label="Description"
                   onChange={(e) => handleFormFieldChange('description', e)}
                 />
+              </div>
+              <div className="col-span-6">
+              <label className="flex ">
+                <span>Deadline*</span>{' '}
+              </label>
+                <DatePicker
+                 onChange={(date) => handleFormFieldChange('deadline', date)} 
+                 value={form.deadline}
+                 minDate={new Date()}
+                 />
               </div>
               {/* <div className="col-span-12">
                 <ImageUpload />
