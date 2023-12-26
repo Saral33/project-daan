@@ -31,6 +31,7 @@ const CampaignDetails = () => {
         image: campaign?.image,
         pId: i,
         name: campaign?.fullName,
+        closed: campaign?.deadline.toNumber() < new Date().getTime()/1000  // In seconds
       }));
       const presentCampaign = parsedRes.find(
         (e: any) => Number(e.pId) === Number(params.id)
@@ -100,7 +101,7 @@ const CampaignDetails = () => {
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Deadline:</h2>
                   <p className="text-lg mt-2 text-gray-300">
-                    {getDateString(presentCampaign?.deadline)}
+                    {getDateString(presentCampaign?.deadline)} {presentCampaign?.closed && "(Closed)"}
                   </p>
                 </div>
                 <div className="bg-input w-full max-w-[400px] p-6">

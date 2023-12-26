@@ -58,7 +58,7 @@ const AllCampaigns = ({ data }: { data: any }) => {
                   </p>
                 </div>
                 <div className="w-full">
-                  Deadline: {getDateString(el?.deadline)}
+                  Deadline: {getDateString(el?.deadline)} {el?.closed && "(Closed)"}
                 </div>
                 <Button
                   onClick={() => navigate(`/details/${el?.pId}`)}

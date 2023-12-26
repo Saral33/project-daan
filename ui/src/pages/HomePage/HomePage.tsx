@@ -43,6 +43,7 @@ const HomePage = () => {
         image: campaign?.image,
         pId: i,
         name: campaign?.fullName,
+        closed: campaign?.deadline.toNumber() < new Date().getTime()/1000  // In seconds
       }));
       setRandom(getRandomNumber(0, parsedRes?.length));
       setCampaigns(parsedRes);
@@ -96,7 +97,7 @@ const HomePage = () => {
                   </p>
                 </div>
                 <div className="w-full">
-                  Deadline: {getDateString(campaigns[random as number]?.deadline)}
+                  Deadline: {getDateString(campaigns[random as number]?.deadline)} {campaigns[random as number]?.closed && "(Closed)"}
                 </div>
                 <Button variant="primary">Donate Now</Button>
               </div>
