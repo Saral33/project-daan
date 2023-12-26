@@ -100,20 +100,22 @@ const CampaignDetails = () => {
                     {presentCampaign?.title}
                   </h1>
                   <h2 className="mt-7 text-xl font-bold">Creator:</h2>
-                  <p className="text-lg mt-2 text-gray-300">
+                  <p className="text-lg mt-1 text-gray-300">
                     {presentCampaign?.name} ({presentCampaign?.owner})
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Description:</h2>
-                  <p className="text-lg mt-2 text-gray-300">
+                  <p className="text-lg mt-1 text-gray-300">
                     {presentCampaign?.description}
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Deadline:</h2>
-                  <p className="text-lg mt-2 text-gray-300">
+                  <p className="text-lg mt-1 text-gray-300">
                     {getDateString(presentCampaign?.deadline)} {presentCampaign?.closed && "(Closed)"}
                   </p>
                   <h2 className="mt-7 text-xl font-bold">Donations:</h2>
-                  { donations.map(donation => (
-                    <div className='flex gap-4'>
+                  { donations.length == 0 ? 
+                  <p className="mt-1">No donations yet. Be the first one to donate and kickstart this campaign!</p> :
+                   donations.map(donation => (
+                    <div className='flex gap-4 mt-2'>
                       <p className="mt-2 text-gray-300">{donation.donator}</p>
                       <p className="mt-2 text-gray-300">{donation.value} ETH</p>
                     </div>
