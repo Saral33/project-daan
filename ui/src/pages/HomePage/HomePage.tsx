@@ -7,7 +7,7 @@ import useCampaign from '../../hooks/useCampaignHooks';
 import { ethers } from 'ethers';
 import toast from 'react-hot-toast';
 import SkeletonLoading from '../../components/loading/SkeletonLoading';
-import { getRandomNumber } from '../../utils/utils';
+import { getRandomNumber, getDateString } from '../../utils/utils';
 
 const HomePage = () => {
   const [campaigns, setCampaigns] = useState<any[]>([]);
@@ -68,8 +68,8 @@ const HomePage = () => {
               <h1 className="text-2xl gradient-text-1 font-semibold">
                 {campaigns[random as number]?.title}
               </h1>
-              <p className="mt-8">{campaigns[random as number]?.description}</p>
-              <div className="mt-5">
+              <p className="mt-4">{campaigns[random as number]?.description}</p>
+              <div className="mt-2">
                 <Silder
                   disabled={true}
                   max={Number(campaigns[random as number]?.target)}
@@ -94,6 +94,9 @@ const HomePage = () => {
                       {campaigns[random as number]?.name} ({campaigns[random as number]?.owner})
                     </span>{' '}
                   </p>
+                </div>
+                <div className="w-full">
+                  Deadline: {getDateString(campaigns[random as number]?.deadline)}
                 </div>
                 <Button variant="primary">Donate Now</Button>
               </div>

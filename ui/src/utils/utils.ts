@@ -15,4 +15,10 @@ function getRandomNumber(min: number, max: number): number {
   return randomNumber;
 }
 
-export { getRandomNumber };
+const getDateString = (seconds: number) => {
+  const date: Date = new Date(seconds * 1000)
+  var options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString("en-US", options)
+}
+
+export { getRandomNumber, getDateString };

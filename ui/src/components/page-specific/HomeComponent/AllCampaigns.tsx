@@ -1,8 +1,9 @@
 import Silder from '../../slider/Silder';
 
 import Button from '../../button/Button';
-import useCampaign from '../../../hooks/useCampaignHooks';
 import { useNavigate } from 'react-router-dom';
+import { getDateString } from '../../../utils/utils';
+
 
 const AllCampaigns = ({ data }: { data: any }) => {
   const navigate = useNavigate();
@@ -55,6 +56,9 @@ const AllCampaigns = ({ data }: { data: any }) => {
                       {el?.name} ({el?.owner})
                     </span>{' '}
                   </p>
+                </div>
+                <div className="w-full">
+                  Deadline: {getDateString(el?.deadline)}
                 </div>
                 <Button
                   onClick={() => navigate(`/details/${el?.pId}`)}

@@ -8,6 +8,7 @@ import SkeletonLoading from '../../loading/SkeletonLoading';
 import Input from '../../input/Input';
 import Button from '../../button/Button';
 import LoadingDialog from '../../dialog/LoadingDialog';
+import { getDateString } from '../../../utils/utils';
 
 const CampaignDetails = () => {
   const [presentCampaign, setPresentCampaign] = useState<any>({});
@@ -42,6 +43,7 @@ const CampaignDetails = () => {
       toast.error('Something went wrong. Contact admin');
     }
   };
+  
   useEffect(() => {
     if (contract) {
       getAll();
@@ -61,7 +63,7 @@ const CampaignDetails = () => {
       })
       .catch((err) =>
         toast.error(
-          'Failed. Please check your fund.If issue persists contact the admin'
+          'Failed. Please check your fund. If issue persists, contact the admin'
         )
       );
   };
@@ -94,6 +96,10 @@ const CampaignDetails = () => {
                   <p className="text-lg mt-2 text-gray-500">
                     {presentCampaign?.description}
                   </p>
+                  <h2 className="mt-7 text-xl font-bold">Deadline:</h2>
+                  <p className="text-lg mt-2 text-gray-500">
+                    {getDateString(presentCampaign?.deadline)}
+                  </p>
                 </div>
                 <div className="bg-input w-full max-w-[300px] p-6">
                   <h1 className="font-bold text-2xl pb-5  text-center">
@@ -107,7 +113,7 @@ const CampaignDetails = () => {
                     label="Fund Amount"
                   />
                   <div className="p-4 w-full text-gray-500 mt-5 bg-black">
-                    World Need more people like you. Keep up the good work 👊
+                    The world needs more people like you. Keep up the good work 👊
                   </div>
                   <div className="mt-4 w-full flex justify-stretch">
                     <Button
