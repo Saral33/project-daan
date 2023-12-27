@@ -2,7 +2,7 @@ import Silder from '../../slider/Silder';
 
 import Button from '../../button/Button';
 import { useNavigate } from 'react-router-dom';
-import { getDateString } from '../../../utils/utils';
+import { getRemainingTime } from '../../../utils/utils';
 
 const AllCampaigns = ({ data }: { data: any }) => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const AllCampaigns = ({ data }: { data: any }) => {
 
                 <p>Goal: {el.target}</p>
               </div>
-              <div className="mt-5 flex flex-col gap-5">
+              <div className="mt-5 flex flex-col gap-3">
                 <div>
                   <p className="w-full  break-words">
                     Campaign By :{' '}
@@ -59,9 +59,8 @@ const AllCampaigns = ({ data }: { data: any }) => {
                     </span>{' '}
                   </p>
                 </div>
-                <div className="w-full">
-                  Deadline: {getDateString(el?.deadline)}{' '}
-                  {el?.closed && '(Closed)'}
+                <div className="w-full font-bold">
+                  {getRemainingTime(el?.deadline)}{' left'}
                 </div>
                 <Button
                   onClick={() => navigate(`/details/${el?.pId}`)}

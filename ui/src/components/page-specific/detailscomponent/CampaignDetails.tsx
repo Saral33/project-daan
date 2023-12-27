@@ -8,7 +8,7 @@ import SkeletonLoading from '../../loading/SkeletonLoading';
 import Input from '../../input/Input';
 import Button from '../../button/Button';
 import LoadingDialog from '../../dialog/LoadingDialog';
-import { getDateString } from '../../../utils/utils';
+import { getDateString, getRemainingTime } from '../../../utils/utils';
 import Silder from '../../slider/Silder';
 
 const CampaignDetails = () => {
@@ -112,20 +112,21 @@ const CampaignDetails = () => {
                     {getDateString(presentCampaign?.deadline)}{' '}
                     {presentCampaign?.closed && '(Closed)'}
                   </p>
-                  <h2 className="mt-7 text-xl font-bold">Donations:</h2>
-                  {donations.length == 0 ? (
-                    <p className="mt-1">
+                  {donations.length == 0 ? <p className="mt-7 text-xl font-bold">
                       No donations yet. Be the first one to donate and kickstart
                       this campaign!
-                    </p>
-                  ) : (
-                    donations.map((donation) => (
+                    </p> : <>
+                  <h2 className="mt-7 text-xl font-bold">{donations.length} Donation{donations.length > 1 && "s"}:</h2>
+          
+                    {donations.map((donation) => (
                       <div className="flex gap-4 mt-1">
                         <p className="text-gray-300">{donation.donator}</p>
                         <p className="text-gray-300">{donation.value} ETH</p>
                       </div>
-                    ))
-                  )}
+                    ))}
+                    </>}
+                    
+                  
                 </div>
                 {!presentCampaign?.closed && (
                   <div className="bg-input w-full max-w-[400px] p-6">
@@ -151,6 +152,9 @@ const CampaignDetails = () => {
                       <p>Raised: {presentCampaign.amountCollected}</p>
 
                       <p>Goal: {presentCampaign.target}</p>
+                    </div>
+                    <div className="flex text-l mt-1 justify-between w-full font-bold">
+                      <p>{ getRemainingTime(presentCampaign?.deadline) } left</p>
                     </div>
                     <div className="mt-4 w-full flex justify-stretch">
                       <Button

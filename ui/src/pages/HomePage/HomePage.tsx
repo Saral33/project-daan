@@ -7,7 +7,7 @@ import useCampaign from '../../hooks/useCampaignHooks';
 import { ethers } from 'ethers';
 import toast from 'react-hot-toast';
 import SkeletonLoading from '../../components/loading/SkeletonLoading';
-import { getRandomNumber, getDateString } from '../../utils/utils';
+import { getRandomNumber, getDateString, getRemainingTime } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
@@ -95,7 +95,7 @@ const HomePage = () => {
                   <p>Goal: {campaigns[random as number]?.target}</p>
                 </div>
 
-                <div className="mt-5 flex flex-col gap-5">
+                <div className="mt-5 flex flex-col gap-3">
                   <div>
                     <p>
                       Campaign By :{' '}
@@ -105,9 +105,8 @@ const HomePage = () => {
                       </span>{' '}
                     </p>
                   </div>
-                  <div className="w-full">
-                    Deadline:{' '}
-                    {getDateString(campaigns[random as number]?.deadline)}
+                  <div className="w-full font-bold">
+                    {getRemainingTime(campaigns[random as number]?.deadline)} left
                   </div>
                   <Button
                     onClick={() =>
