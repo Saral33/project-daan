@@ -34,7 +34,7 @@ const ProfilePage = () => {
           </div>
           <div className="bg-input p-5 mt-10">
             <h2 className="font-bold text-lg">My Campaings (69)</h2>
-            <AllCampaigns />
+            {/* <AllCampaigns /> */}
           </div>
         </div>
       </div>
