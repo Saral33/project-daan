@@ -106,7 +106,7 @@ const HomePage = () => {
                     </p>
                   </div>
                   <div className="w-full font-bold">
-                    {getRemainingTime(campaigns[random as number]?.deadline)} left
+                    {getRemainingTime(campaigns[random as number]?.deadline)}
                   </div>
                   <Button
                     onClick={() =>

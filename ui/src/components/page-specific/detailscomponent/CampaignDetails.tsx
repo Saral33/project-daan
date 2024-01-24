@@ -154,7 +154,7 @@ const CampaignDetails = () => {
                       <p>Goal: {presentCampaign.target}</p>
                     </div>
                     <div className="flex text-l mt-1 justify-between w-full font-bold">
-                      <p>{ getRemainingTime(presentCampaign?.deadline) } left</p>
+                      <p>{ getRemainingTime(presentCampaign?.deadline) }</p>
                     </div>
                     <div className="mt-4 w-full flex justify-stretch">
                       <Button

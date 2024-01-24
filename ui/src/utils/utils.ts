@@ -38,12 +38,12 @@ function getRemainingTime(seconds: number): string {
 
   if (daysLeft > 30) {
     if (monthsLeft > 12) {
-      return `${yearsLeft} year${yearsLeft > 1 ? 's' : ''}`;
+      return `${yearsLeft} year${yearsLeft > 1 ? 's' : ''} left`;
     } else {
-      return `${monthsLeft} month${monthsLeft > 1 ? 's' : ''}`;
+      return `${monthsLeft} month${monthsLeft > 1 ? 's' : ''} left`;
     }
   } else {
-    return `${daysLeft} day${daysLeft > 1 ? 's' : ''}`;
+    return `${daysLeft} day${daysLeft > 1 ? 's' : ''} left`;
   }
 }
 

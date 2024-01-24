@@ -60,7 +60,7 @@ const AllCampaigns = ({ data }: { data: any }) => {
                   </p>
                 </div>
                 <div className="w-full font-bold">
-                  {getRemainingTime(el?.deadline)}{' left'}
+                  {getRemainingTime(el?.deadline)}
                 </div>
                 <Button
                   onClick={() => navigate(`/details/${el?.pId}`)}
